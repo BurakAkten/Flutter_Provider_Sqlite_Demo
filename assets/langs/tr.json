@@ -1,0 +1,18 @@
+{
+    "customerProgresses": "Müşteri işlemleri",
+    "missionAssign": "Görev Atama",
+    "missionType": "Görev Türü: ",
+    "addMission": "Yeni GOrev Ata",
+    "description": "Açıklama:",
+    "role": "Atanan Role:",
+    "selectRole": "Lütfen role seçiniz.",
+    "selectCategory": "Lütfen kategori seçiniz.",
+    "selectTime": "Lütfen bitiş tarihini seçiniz.",
+    "enterDescription": "Lütfen bir açıklama giriniz.",
+    "category": "Kategori: ",
+    "endDate": "Bitiş Tarihi: ",
+    "sendButtonTitle": "GÖNDER",
+    "validator": {
+        "fillAreas": "***Lütfen alanları doldurun."
+    }
+}

@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:profe_study_case_flutter/design_system/ui_components/mission_list_item.dart';
+import 'package:profe_study_case_flutter/design_system/ui_components/wave_widget.dart';
+import 'package:profe_study_case_flutter/providers/user_provider.dart';
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import 'package:provider/provider.dart';
+import '../router.dart';
+
+class CustomerProgresses extends StatefulWidget {
+  @override
+  _CustomerProgressesState createState() => _CustomerProgressesState();
+}
+
+class _CustomerProgressesState extends State<CustomerProgresses> {
+  int currentPage = 1;
+  GlobalKey bottomNavigationKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+            child: Text(FlutterI18n.translate(context, "customerProgresses"))),
+        elevation: 10.0,
+        backgroundColor: Colors.blue[500],
+      ),
+      body: currentPage == 1
+          ? Consumer<UserProvider>(
+              builder: (context, provider, child) => LayoutBuilder(
+                builder: (context, constraint) => ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  child: FutureBuilder(
+                      future: provider.getMissions(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data.length == 0) {
+                            return Center(
+                              child: Text("Herhanbi bir işlem bulunmamıştır."),
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  WaveScreen(
+                                    shopInfo: provider.shop,
+                                  ),
+                                  SizedBox(height: 12),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(left: 12, right: 12),
+                                    height: constraint.maxHeight,
+                                    child: ListView.builder(
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder: (context, index) {
+                                        var mission = snapshot.data[index];
+                                        return MissionItem(
+                                            title: mission.title,
+                                            mission: mission.mission,
+                                            time: mission.time);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      }),
+                ),
+              ),
+            )
+          : Container(),
+      bottomNavigationBar: FancyBottomNavigation(
+        circleColor: Colors.white,
+        activeIconColor: Colors.blue[900],
+        textColor: Colors.white,
+        barBackgroundColor: Colors.blue[900],
+        tabs: [
+          TabData(
+            iconData: Icons.airplanemode_active,
+            title: "",
+          ),
+          TabData(
+            iconData: Icons.call_split,
+            title: FlutterI18n.translate(context, "missionAssign"),
+          ),
+          TabData(iconData: Icons.check, title: "")
+        ],
+        initialSelection: 1,
+        key: bottomNavigationKey,
+        onTabChangedListener: (position) {
+          setState(() {
+            currentPage = position;
+          });
+        },
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.missionAssign);
+          },
+          tooltip: FlutterI18n.translate(context, "addMission"),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.blue[900],
+        ),
+      ),
+    );
+  }
+}
