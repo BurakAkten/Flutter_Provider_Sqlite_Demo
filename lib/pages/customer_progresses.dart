@@ -36,7 +36,8 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
                         if (snapshot.hasData) {
                           if (snapshot.data.length == 0) {
                             return Center(
-                              child: Text("Herhanbi bir işlem bulunmamıştır."),
+                              child: Text(FlutterI18n.translate(
+                                  context, "processes.noDataMessage")),
                             );
                           }
                           return Padding(

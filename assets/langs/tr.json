@@ -12,6 +12,9 @@
     "category": "Kategori: ",
     "endDate": "Bitiş Tarihi: ",
     "sendButtonTitle": "GÖNDER",
+    "processes": {
+        "noDataMessage": "Herhanbi bir işlem bulunmamıştır."
+    },
     "validator": {
         "fillAreas": "***Lütfen alanları doldurun."
     }
