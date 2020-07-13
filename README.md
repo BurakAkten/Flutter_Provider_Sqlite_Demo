@@ -6,10 +6,7 @@ This is kind of demo aplication that uses:
 - Fancy bottom navigation bar
 - Wave widget
 
-steps:
-- title: Flutter Demo - Provider, Sqlite, Wave widget?
-  description: This is kind of Flutter demo application that I tried to use provider, sqlite, fancy bottom navigation bar and wave widget that is moving on the screen.
-  video: https://www.youtube.com/embed/1hNLoUR-9cE
+[![Alt text](http://i3.ytimg.com/vi/1hNLoUR-9cE/maxresdefault.jpg)](https://youtu.be/1hNLoUR-9cE)
 
 The resources that I used for this application.
 - [Wave widget](https://github.com/i-protoss/wave)
