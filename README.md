@@ -6,6 +6,7 @@ This is kind of demo aplication that uses:
 - Fancy bottom navigation bar
 - Wave widget
 
+- You can watch video of the demo application.
 [![Alt text](http://i3.ytimg.com/vi/1hNLoUR-9cE/maxresdefault.jpg)](https://youtu.be/1hNLoUR-9cE)
 
 The resources that I used for this application.
