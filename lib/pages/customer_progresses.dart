@@ -35,9 +35,18 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           if (snapshot.data.length == 0) {
-                            return Center(
-                              child: Text(FlutterI18n.translate(
-                                  context, "processes.noDataMessage")),
+                            return Column(
+                              children: [
+                                WaveScreen(
+                                  shopInfo: provider.shop,
+                                ),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(FlutterI18n.translate(
+                                        context, "processes.noDataMessage")),
+                                  ),
+                                )
+                              ],
                             );
                           }
                           return Padding(

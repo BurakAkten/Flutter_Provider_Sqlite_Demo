@@ -202,6 +202,8 @@ class _MissionAssignState extends State<MissionAssign> {
                             category: _selectedCategory,
                             role: _selectedRole);
                         provider.insertMission(mission);
+                        await Future.delayed(const Duration(seconds: 2),
+                            () {}); //Added to see circular indicator
                         setState(() {
                           _showLoading = false;
                         });
