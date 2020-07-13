@@ -1,6 +1,10 @@
 # Flutter_Provider_SqlLite_Demo
 
-This is kind of demo aplication that uses the provider, sqllite, fancy bottom navigation bar and wave widget.
+This is kind of demo aplication that uses:
+- Provider
+- Sqllite
+- Fancy bottom navigation bar
+- Wave widget
 
 
 The resources that I used for this application.
