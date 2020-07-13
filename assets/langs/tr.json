@@ -13,7 +13,7 @@
     "endDate": "Bitiş Tarihi: ",
     "sendButtonTitle": "GÖNDER",
     "processes": {
-        "noDataMessage": "Herhanbi bir işlem bulunmamıştır."
+        "noDataMessage": "Herhangi bir işlem bulunmamıştır."
     },
     "validator": {
         "fillAreas": "***Lütfen alanları doldurun."
