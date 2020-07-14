@@ -5,8 +5,8 @@ import 'package:profe_study_case_flutter/models/shop_info.dart';
 import 'package:profe_study_case_flutter/utils/db_util.dart';
 
 class UserProvider extends ChangeNotifier {
-  BuildContext context;
   DBHelper dbHelper;
+  List<CustomerProcess> missons;
 
   ShopInfo shop = ShopInfo(
       info: "PASTAHANE(<50M2)",
@@ -16,22 +16,28 @@ class UserProvider extends ChangeNotifier {
       city: "ISTANBUL",
       province: "DUDULLU");
 
-  UserProvider({@required this.context}) {
+  UserProvider() {
     dbHelper = DBHelper();
+    getMissions();
   }
 
-  Future<List<CustomerProcess>> getMissions() async {
-    var missons = await dbHelper.getMissions();
-
-    return missons
-        .map((value) => CustomerProcess(
-            time: value.time.toString(),
-            title: value.category,
-            mission: value.role))
-        .toList();
+  Future getMissions() async {
+    var missonsFromDB = await dbHelper.getMissions();
+    if (missonsFromDB.length > 0) {
+      missons = missonsFromDB
+          .map((value) => CustomerProcess(
+              time: value.time.toString(),
+              title: value.category,
+              mission: value.role))
+          .toList();
+    } else {
+      missons = [];
+    }
+    notifyListeners();
   }
 
-  Future<int> insertMission(AssignedMissionData mission) async {
-    return dbHelper.insertMission(mission);
+  Future<void> insertMission(AssignedMissionData mission) async {
+    var _ = dbHelper.insertMission(mission);
+    await getMissions();
   }
 }

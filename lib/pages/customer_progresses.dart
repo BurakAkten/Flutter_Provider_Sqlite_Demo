@@ -27,62 +27,57 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
       ),
       body: currentPage == 1
           ? Consumer<UserProvider>(
-              builder: (context, provider, child) => LayoutBuilder(
-                builder: (context, constraint) => ConstrainedBox(
+              builder: (context, provider, child) =>
+                  LayoutBuilder(builder: (context, constraint) {
+                var isNoData = provider.missons == null ||
+                    (provider.missons != null && provider.missons.length <= 0);
+                return ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                  child: FutureBuilder(
-                      future: provider.getMissions(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data.length == 0) {
-                            return Column(
+                  child: isNoData
+                      ? Column(
+                          children: [
+                            WaveScreen(
+                              shopInfo: provider.shop,
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: provider.missons == null
+                                    ? CircularProgressIndicator()
+                                    : Text(FlutterI18n.translate(
+                                        context, "processes.noDataMessage")),
+                              ),
+                            )
+                          ],
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: SingleChildScrollView(
+                            child: Column(
                               children: [
                                 WaveScreen(
                                   shopInfo: provider.shop,
                                 ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text(FlutterI18n.translate(
-                                        context, "processes.noDataMessage")),
+                                SizedBox(height: 12),
+                                Container(
+                                  padding: EdgeInsets.only(left: 12, right: 12),
+                                  height: constraint.maxHeight,
+                                  child: ListView.builder(
+                                    itemCount: provider.missons.length,
+                                    itemBuilder: (context, index) {
+                                      var mission = provider.missons[index];
+                                      return MissionItem(
+                                          title: mission.title,
+                                          mission: mission.mission,
+                                          time: mission.time);
+                                    },
                                   ),
                                 )
                               ],
-                            );
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  WaveScreen(
-                                    shopInfo: provider.shop,
-                                  ),
-                                  SizedBox(height: 12),
-                                  Container(
-                                    padding:
-                                        EdgeInsets.only(left: 12, right: 12),
-                                    height: constraint.maxHeight,
-                                    child: ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (context, index) {
-                                        var mission = snapshot.data[index];
-                                        return MissionItem(
-                                            title: mission.title,
-                                            mission: mission.mission,
-                                            time: mission.time);
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
                             ),
-                          );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      }),
-                ),
-              ),
+                          ),
+                        ),
+                );
+              }),
             )
           : Container(),
       bottomNavigationBar: FancyBottomNavigation(
