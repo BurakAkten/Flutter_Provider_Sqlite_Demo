@@ -21,7 +21,10 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text(FlutterI18n.translate(context, "customerProgresses"))),
+          child: Text(
+            FlutterI18n.translate(context, "customerProgresses"),
+          ),
+        ),
         elevation: 10.0,
         backgroundColor: Colors.blue[500],
       ),
@@ -43,8 +46,10 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
                               child: Center(
                                 child: provider.missons == null
                                     ? CircularProgressIndicator()
-                                    : Text(FlutterI18n.translate(
-                                        context, "processes.noDataMessage")),
+                                    : Text(
+                                        FlutterI18n.translate(
+                                            context, "processes.noDataMessage"),
+                                      ),
                               ),
                             )
                           ],

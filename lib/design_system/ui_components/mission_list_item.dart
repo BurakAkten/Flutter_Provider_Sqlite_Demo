@@ -46,13 +46,15 @@ class MissionItem extends StatelessWidget {
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                            text: FlutterI18n.translate(context, "missionType"),
-                            style: TextStyle(
-                                color: Colors.blue[400], fontSize: 10)),
+                          text: FlutterI18n.translate(context, "missionType"),
+                          style:
+                              TextStyle(color: Colors.blue[400], fontSize: 10),
+                        ),
                         TextSpan(
-                            text: "$mission",
-                            style: TextStyle(
-                                color: Colors.blue[600], fontSize: 10)),
+                          text: "$mission",
+                          style:
+                              TextStyle(color: Colors.blue[600], fontSize: 10),
+                        ),
                       ])),
                     ]),
               ),
@@ -70,9 +72,11 @@ class MissionItem extends StatelessWidget {
                   Column(children: [
                     Icon(Icons.access_alarm),
                     SizedBox(height: 8),
-                    Text("$time",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.blue[400], fontSize: 10))
+                    Text(
+                      "$time",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.blue[400], fontSize: 10),
+                    )
                   ]),
                 ],
               ),

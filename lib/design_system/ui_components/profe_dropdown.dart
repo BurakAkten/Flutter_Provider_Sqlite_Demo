@@ -38,8 +38,9 @@ class _ProfeDropdownState extends State<ProfeDropdown> {
             widget.onPressed(value);
           },
           decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(left: 8, right: 8)),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(left: 8, right: 8),
+          ),
           validator: (value) {
             if (value == null) {
               return "";
