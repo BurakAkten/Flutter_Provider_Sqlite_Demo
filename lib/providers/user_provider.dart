@@ -64,6 +64,15 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void refreshFields() {
+    selectedRole = "";
+    selectedCategory = "";
+    selectedEndDate = null;
+    showValidateMessage = false;
+    showLoading = false;
+    currentTab = 1;
+  }
+
   Future getMissions() async {
     var missonsFromDB = await dbHelper.getMissions();
     if (missonsFromDB.length > 0) {
@@ -81,6 +90,7 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> insertMission(AssignedMissionData mission) async {
     var _ = dbHelper.insertMission(mission);
+    refreshFields();
     await getMissions();
   }
 }
