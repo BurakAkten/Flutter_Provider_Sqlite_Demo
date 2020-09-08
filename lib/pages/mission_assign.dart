@@ -12,55 +12,35 @@ import 'package:provider/provider.dart';
 
 import '../router.dart';
 
-class MissionAssign extends StatefulWidget {
-  @override
-  _MissionAssignState createState() => _MissionAssignState();
-}
-
-class _MissionAssignState extends State<MissionAssign> {
-  GlobalKey<FormState> _fbKey;
-  TextEditingController _descriptionController;
-  TextEditingController _timeController;
-  List<DropdownMenuItem> _roles;
-
-  List<DropdownMenuItem> _categories;
-  String _selectedCategory;
-  String _selectedRole;
-  DateTime _selectedEndDate;
+class MissionAssign extends StatelessWidget {
+  final GlobalKey<FormState> _fbKey = GlobalKey<FormState>();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
+  final List<DropdownMenuItem> _roles = [
+    DropdownMenuItem<String>(
+      value: "Şef",
+      child: new Text("Şef"),
+    ),
+    DropdownMenuItem<String>(
+      value: "Stand",
+      child: new Text("Stand"),
+    )
+  ];
+  final List<DropdownMenuItem> _categories = [
+    DropdownMenuItem<String>(
+      value: "Soğutcu",
+      child: new Text("Soğutcu"),
+    ),
+    DropdownMenuItem<String>(
+      value: "Isıtıcı",
+      child: new Text("Isıtıcı"),
+    )
+  ];
   final _dateFormatter = DateFormat("dd.MM.yyyy - hh:mm");
-  bool _showValidateMessage = false;
-  bool _showLoading = false;
-
-  @override
-  void initState() {
-    _fbKey = GlobalKey<FormState>();
-    _descriptionController = TextEditingController();
-    _timeController = TextEditingController();
-    _roles = [
-      DropdownMenuItem<String>(
-        value: "Şef",
-        child: new Text("Şef"),
-      ),
-      DropdownMenuItem<String>(
-        value: "Stand",
-        child: new Text("Stand"),
-      )
-    ];
-    _categories = [
-      DropdownMenuItem<String>(
-        value: "Soğutcu",
-        child: new Text("Soğutcu"),
-      ),
-      DropdownMenuItem<String>(
-        value: "Isıtıcı",
-        child: new Text("Isıtıcı"),
-      )
-    ];
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -106,9 +86,7 @@ class _MissionAssignState extends State<MissionAssign> {
                             hint: FlutterI18n.translate(context, "selectRole"),
                             onPressed: (value) {
                               FocusScope.of(context).requestFocus(FocusNode());
-                              setState(() {
-                                _selectedRole = value.toString();
-                              });
+                              viewModel.selectedRole = value.toString();
                             },
                           ),
                           SizedBox(height: 12),
@@ -121,9 +99,7 @@ class _MissionAssignState extends State<MissionAssign> {
                                 context, "selectCategory"),
                             onPressed: (value) {
                               FocusScope.of(context).requestFocus(FocusNode());
-                              setState(() {
-                                _selectedCategory = value.toString();
-                              });
+                              viewModel.selectedCategory = value.toString();
                             },
                           ),
                           SizedBox(height: 12),
@@ -144,16 +120,14 @@ class _MissionAssignState extends State<MissionAssign> {
                                     initialTime: TimeOfDay.now(),
                                   ).then((time) {
                                     if (time != null) {
-                                      setState(() {
-                                        _selectedEndDate = DateTime(
-                                            date.year,
-                                            date.month,
-                                            date.day,
-                                            time.hour,
-                                            time.minute);
-                                        _timeController.text = _dateFormatter
-                                            .format(_selectedEndDate);
-                                      });
+                                      viewModel.selectedEndDate = DateTime(
+                                          date.year,
+                                          date.month,
+                                          date.day,
+                                          time.hour,
+                                          time.minute);
+                                      _timeController.text = _dateFormatter
+                                          .format(viewModel.selectedEndDate);
                                     }
                                   });
                                 }
@@ -174,7 +148,7 @@ class _MissionAssignState extends State<MissionAssign> {
                       ),
                     ),
                   ),
-                  _showValidateMessage
+                  viewModel.showValidateMessage
                       ? Padding(
                           padding: EdgeInsets.only(top: 8, left: 16, right: 12),
                           child: Align(
@@ -190,29 +164,23 @@ class _MissionAssignState extends State<MissionAssign> {
                   GestureDetector(
                     onTap: () async {
                       if (_fbKey.currentState.validate()) {
-                        setState(() {
-                          _showValidateMessage = false;
-                          _showLoading = true;
-                        });
+                        viewModel.showLoading = true;
+                        viewModel.showValidateMessage = false;
                         var date = DateFormat("dd.MM.yyyy - hh:mm")
-                            .format(_selectedEndDate);
+                            .format(viewModel.selectedEndDate);
                         var mission = AssignedMissionData(
                             description: _descriptionController.text.trim(),
                             time: date,
-                            category: _selectedCategory,
-                            role: _selectedRole);
+                            category: viewModel.selectedCategory,
+                            role: viewModel.selectedRole);
                         provider.insertMission(mission);
                         await Future.delayed(const Duration(seconds: 2),
                             () {}); //Added to see circular indicator
-                        setState(() {
-                          _showLoading = false;
-                        });
+                        viewModel.showLoading = false;
                         Navigator.pushNamedAndRemoveUntil(context,
                             Routes.customerProgresses, (route) => false);
                       } else {
-                        setState(() {
-                          _showValidateMessage = true;
-                        });
+                        viewModel.showValidateMessage = true;
                       }
                     },
                     child: Padding(
@@ -222,7 +190,7 @@ class _MissionAssignState extends State<MissionAssign> {
                         decoration: ProfeBoxDecorations.commonBoxDecoration(
                             background: Colors.blue[900], shadow: Colors.blue),
                         child: Center(
-                          child: _showLoading
+                          child: viewModel.showLoading
                               ? CircularProgressIndicator()
                               : Text(
                                   FlutterI18n.translate(

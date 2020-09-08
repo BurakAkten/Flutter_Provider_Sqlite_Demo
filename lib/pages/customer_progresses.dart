@@ -7,17 +7,12 @@ import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:provider/provider.dart';
 import '../router.dart';
 
-class CustomerProgresses extends StatefulWidget {
-  @override
-  _CustomerProgressesState createState() => _CustomerProgressesState();
-}
-
-class _CustomerProgressesState extends State<CustomerProgresses> {
-  int currentPage = 1;
-  GlobalKey bottomNavigationKey = GlobalKey();
+class CustomerProgresses extends StatelessWidget {
+  final GlobalKey bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -28,7 +23,7 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
         elevation: 10.0,
         backgroundColor: Colors.blue[500],
       ),
-      body: currentPage == 1
+      body: viewModel.currentTab == 1
           ? Consumer<UserProvider>(
               builder: (context, provider, child) =>
                   LayoutBuilder(builder: (context, constraint) {
@@ -104,9 +99,7 @@ class _CustomerProgressesState extends State<CustomerProgresses> {
         initialSelection: 1,
         key: bottomNavigationKey,
         onTabChangedListener: (position) {
-          setState(() {
-            currentPage = position;
-          });
+          viewModel.currentTab = position;
         },
       ),
       floatingActionButton: Padding(

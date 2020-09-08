@@ -7,6 +7,12 @@ import 'package:profe_study_case_flutter/utils/db_util.dart';
 class UserProvider extends ChangeNotifier {
   DBHelper dbHelper;
   List<CustomerProcess> missons;
+  int _customerProgressesCurrentTab = 1;
+  String _selectedRole;
+  String _selectedCategory;
+  DateTime _selectedEndDate;
+  bool _showValidateMessage = false;
+  bool _showLoading = false;
 
   ShopInfo shop = ShopInfo(
       info: "PASTAHANE(<50M2)",
@@ -19,6 +25,43 @@ class UserProvider extends ChangeNotifier {
   UserProvider() {
     dbHelper = DBHelper();
     getMissions();
+  }
+
+  int get currentTab => _customerProgressesCurrentTab;
+  String get selectedRole => _selectedRole;
+  String get selectedCategory => _selectedCategory;
+  DateTime get selectedEndDate => _selectedEndDate;
+  bool get showValidateMessage => _showValidateMessage;
+  bool get showLoading => _showLoading;
+
+  set selectedRole(String role) {
+    _selectedRole = role;
+    notifyListeners();
+  }
+
+  set selectedCategory(String category) {
+    _selectedCategory = category;
+    notifyListeners();
+  }
+
+  set selectedEndDate(DateTime time) {
+    _selectedEndDate = time;
+    notifyListeners();
+  }
+
+  set showValidateMessage(bool value) {
+    _showValidateMessage = value;
+    notifyListeners();
+  }
+
+  set showLoading(bool value) {
+    _showLoading = value;
+    notifyListeners();
+  }
+
+  set currentTab(int tabIndex) {
+    _customerProgressesCurrentTab = tabIndex;
+    notifyListeners();
   }
 
   Future getMissions() async {
